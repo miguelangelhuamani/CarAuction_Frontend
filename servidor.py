@@ -19,6 +19,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         <body>
             <h1>Hola desde un servidor Python</h1>
             <p>Este es un servidor simple que responde a solicitudes GET.</p>
+            <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fchannel%2FUCSBilL6FoaKp-RsfYvseHBQ%2Fvideos&psig=AOvVaw2ZSH5PmvrfUH-EApJD8PzO&ust=1738246815643000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKj42JeQm4sDFQAAAAAdAAAAABAE">
         </body>
         </html>"""
 
