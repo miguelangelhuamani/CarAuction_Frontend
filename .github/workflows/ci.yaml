@@ -26,7 +26,7 @@ jobs:
 
       - name: Ejecutar pruebas
         run: |
-          python test_servidor.py
+          python -m coverage run test_servidor.py
 
       - name: Generar informe de cobertura xml
         run: |
