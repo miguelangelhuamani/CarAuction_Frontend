@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Usuario</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <h1>Crear Usuario</h1>
+        <form action="crear_usuario.php" method="post">
+            <input type="text" name="user" placeholder="Usuario" required>
+            <br>
+            <input type="text" name="name" placeholder="Nombre" required>
+            <br>
+            <input type="text" name="lastname" placeholder="Apellidos" required>
+            <br> 
+            <input type="text" name="DNI/NIE" placeholder="Teléfono" required>
+            <br>
+            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <br>
+            <label for="birthdate">Fecha de nacimiento (dd/mm/aaaa):</label>
+            <input type="date" id="birthdate" name="birthdate" required>            
+            <br>
+            <input type="adress" name="adress" placeholder="Dirección" required>
+            <br>
+
+            <!-- Desplegable ubicacion -->
+            <select id="ubicacion">
+                <option value="">Selecciona una comunidad y ciudad</option>
+        
+                <optgroup label="Madrid">
+                    <option value="madrid-madrid">Madrid</option>
+                    <option value="madrid-alcala">Alcalá de Henares</option>
+                    <option value="madrid-leganes">Leganés</option>
+                    <option value="madrid-getafe">Getafe</option>
+                </optgroup>
+        
+                <optgroup label="Cataluña">
+                    <option value="catalunya-barcelona">Barcelona</option>
+                    <option value="catalunya-girona">Girona</option>
+                    <option value="catalunya-tarragona">Tarragona</option>
+                    <option value="catalunya-lleida">Lleida</option>
+                </optgroup>
+        
+                <optgroup label="Andalucía">
+                    <option value="andalucia-sevilla">Sevilla</option>
+                    <option value="andalucia-malaga">Málaga</option>
+                    <option value="andalucia-granada">Granada</option>
+                    <option value="andalucia-cordoba">Córdoba</option>
+                </optgroup>
+                
+            </select>
+            
+
+
+<!-- Crear Contraseña -->
+            <br>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <br>
+            <input type="password" name="password2" placeholder="Repetir Contraseña" required>
+            <br>
+        
+            <input type="submit" value="Crear Usuario">
+    
+        </form>
+        <button type="button" onclick>Limpiar formulario</button>
+        <br>
+        
+        <a href="pagina_inicio_sesion.html">Volver a inicio sesión</a>
+    </div>
+</html>
