@@ -1,4 +1,3 @@
-/* Estilo global para el body */
 body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
@@ -9,7 +8,6 @@ body {
     justify-content: flex-start;  /* Asegura que el header esté arriba */
     align-items: center;
 }
-
 /* Header */
 header {
     background-color: #00211c;
@@ -22,21 +20,17 @@ header {
     left: 0;
     box-sizing: border-box;
 }
-
 /* Contenedor de contenido del header */
 .header-content {
     padding-left: 20px;
 }
-
 header h1 {
     font-size: 28px;
     margin: 0;
 }
-
 header p {
     font-size: 16px;
 }
-
 /* Estilos para el contenedor del formulario */
 .contenedor {
     background: #ffffff;
@@ -48,14 +42,12 @@ header p {
     max-width: 400px; /* Limita el ancho del contenedor */
     margin-top: 200px; /* Espacio entre el header y el contenedor */
 }
-
 /* Título del formulario */
 h2 {
     margin-bottom: 20px;
     color: #333;
     font-size: 24px;
 }
-
 /* Estilos para los inputs y botones */
 input[type="text"],
 input[type="password"],
@@ -66,7 +58,6 @@ input[type="submit"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 /* Botón de inicio de sesión */
 input[type="submit"] {
     background-color: #00211c;
@@ -74,21 +65,17 @@ input[type="submit"] {
     font-size: 16px;
     cursor: pointer;
 }
-
 input[type="submit"]:hover {
     background-color: #cb4b24;
 }
-
 /* Enlace de '¿Olvidaste tu contraseña?' */
 a {
     text-decoration: none;
     color: #00211c;
 }
-
 a:hover {
     text-decoration: underline;
 }
-
 /* Footer */
 footer {
     background-color: #00211c;
@@ -98,4 +85,5 @@ footer {
     text-align: center;
     position: absolute;
     bottom: 0;
-    left: 0;}
+    left: 0;
+}
