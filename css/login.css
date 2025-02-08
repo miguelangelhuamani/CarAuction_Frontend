@@ -1,21 +1,24 @@
+/* Estilo global para el body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: #1d4d29;
+    background-image: url('../imgs/fondo_coche.avif'); 
+    background-size: cover; 
+    background-position: center; 
     height: 100vh;
     margin: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;  /* Asegura que el header esté arriba */
+    justify-content: center;  
     align-items: center;
 }
 /* Header */
 header {
-    background-color: #00211c;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
     width: 100%;
     padding: 20px;
     color: white;
-    text-align: left;  /* Alinea el texto a la izquierda */
-    position: absolute; /* Fija el header arriba */
+    text-align: left;  
+    position: absolute; 
     top: 0;
     left: 0;
     box-sizing: border-box;
@@ -25,23 +28,24 @@ header {
     padding-left: 20px;
 }
 header h1 {
-    font-size: 28px;
-    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    font-weight: bold;
 }
-header p {
-    font-size: 16px;
-}
+
+
 /* Estilos para el contenedor del formulario */
 .contenedor {
-    background: #ffffff;
+    background: #ffffff;  
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(218, 246);
     text-align: center;
     width: 100%;
-    max-width: 400px; /* Limita el ancho del contenedor */
-    margin-top: 200px; /* Espacio entre el header y el contenedor */
+    max-width: 400px; 
+    box-sizing: border-box;
 }
+
 /* Título del formulario */
 h2 {
     margin-bottom: 20px;
@@ -52,15 +56,15 @@ h2 {
 input[type="text"],
 input[type="password"],
 input[type="submit"] {
-    width: 100%;
+    width: 90%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px auto;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 /* Botón de inicio de sesión */
 input[type="submit"] {
-    background-color: #00211c;
+    background-color: #49aee9;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -78,10 +82,9 @@ a:hover {
 }
 /* Footer */
 footer {
-    background-color: #00211c;
+    background-color:rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
     width: 100%;
     padding: 10px 0;
-    color: white;
     text-align: center;
     position: absolute;
     bottom: 0;
