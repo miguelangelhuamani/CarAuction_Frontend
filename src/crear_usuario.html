@@ -5,70 +5,76 @@
     <meta charset="UTF-8">
     <title>Crear Usuario</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <script src="javascript/desplegable.js"></script>
 </head>
 
 <body>
-    <div class="contenedor">
-        <h1>Crear Usuario</h1>
-        <form action="crear_usuario.php" method="post">
-            <input type="text" name="user" placeholder="Usuario" required>
+        <header>
+            <h1>Crear Usuario</h1>
+        <header>
+
+        <main class="contenedor">
+        <form id = "UserForm" action="crear_usuario.php" method="post">
+            <input type="text" name="user" placeholder="Usuario">
             <br>
-            <input type="text" name="name" placeholder="Nombre" required>
+            <input type="text" name="name" placeholder="Nombre">
             <br>
-            <input type="text" name="lastname" placeholder="Apellidos" required>
+            <input type="text" name="lastname" placeholder="Apellidos">
             <br> 
-            <input type="text" name="DNI/NIE" placeholder="Teléfono" required>
+            <input type="text" name="id" placeholder="DNI/NIE">
             <br>
-            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <input type="email" name="email" placeholder="Correo Electrónico">
             <br>
             <label for="birthdate">Fecha de nacimiento (dd/mm/aaaa):</label>
-            <input type="date" id="birthdate" name="birthdate" required>            
+            <input type="date" id="birthdate" name="birthdate">            
             <br>
-            <input type="adress" name="adress" placeholder="Dirección" required>
+            <input type="adress" name="adress" placeholder="Dirección">
             <br>
 
             <!-- Desplegable ubicacion -->
-            <select id="ubicacion">
-                <option value="">Selecciona una comunidad y ciudad</option>
-        
-                <optgroup label="Madrid">
-                    <option value="madrid-madrid">Madrid</option>
-                    <option value="madrid-alcala">Alcalá de Henares</option>
-                    <option value="madrid-leganes">Leganés</option>
-                    <option value="madrid-getafe">Getafe</option>
-                </optgroup>
-        
-                <optgroup label="Cataluña">
-                    <option value="catalunya-barcelona">Barcelona</option>
-                    <option value="catalunya-girona">Girona</option>
-                    <option value="catalunya-tarragona">Tarragona</option>
-                    <option value="catalunya-lleida">Lleida</option>
-                </optgroup>
-        
-                <optgroup label="Andalucía">
-                    <option value="andalucia-sevilla">Sevilla</option>
-                    <option value="andalucia-malaga">Málaga</option>
-                    <option value="andalucia-granada">Granada</option>
-                    <option value="andalucia-cordoba">Córdoba</option>
-                </optgroup>
-                
+            <select id="comunidad">
+                <option value="">Selecciona una comunidad</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Cataluña">Cataluña</option>
+                <option value="Andalucía">Andalucía</option>
+                <option value="Valencia">Valencia</option>
+                <option value="País Vasco">País Vasco</option>
+                <option value="Galicia">Galicia</option>
+                <option value="Castilla y León">Castilla y León</option>
+                <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+                <option value="Extremadura">Extremadura</option>
+                <option value="Aragón">Aragón</option>
+                <option value="Asturias">Asturias</option>
+                <option value="Cantabria">Cantabria</option>
+                <option value="Murcia">Murcia</option>
+                <option value="Navarra">Navarra</option>
+                <option value="La Rioja">La Rioja</option>
+                <option value="Baleares">Baleares</option>
+                <option value="Canarias">Canarias</option>
+                <option value="Ceuta y Melilla">Ceuta y Melilla</option>
+            </select>
+
+            <select id="provincia">
+                <option value="">Selecciona una provincia</option>
             </select>
             
-
-
 <!-- Crear Contraseña -->
             <br>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="password" name="password" placeholder="Contraseña" >
             <br>
-            <input type="password" name="password2" placeholder="Repetir Contraseña" required>
+            <input type="password" name="password2" placeholder="Repetir Contraseña" >
             <br>
         
             <input type="submit" value="Crear Usuario">
     
         </form>
-        <button type="button" onclick>Limpiar formulario</button>
+        <button type="button" onclick="document.getElementById('UserForm').reset();">Limpiar formulario</button>
         <br>
         
         <a href="pagina_inicio_sesion.html">Volver a inicio sesión</a>
-    </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nombre de la Empresa. Todos los derechos reservados.</p>
+    </footer>
+</body> 
 </html>
