@@ -43,10 +43,12 @@ nav {
 
 nav ul {
     list-style: none;
-    padding: 0;
-    display: flex; /* Alinea los elementos en línea */
-    gap: 40px; /* Espaciado entre opciones */
-    margin-left: 20px; /* Opcional: Añade un pequeño margen a la izquierda */
+    padding: 20px;;
+    border-radius: 10px;
+    display: flex; /* Para organizar los elementos en fila */
+    justify-content: space-between; /* Espacio entre "Categoría" e "Iniciar Sesión / Búsqueda" */
+    align-items: center;
+    width: 100%; /* Ocupa todo el ancho */
 }
 
 nav ul li a {
@@ -58,8 +60,42 @@ nav ul li a {
     text-transform: uppercase; /* Convierte el texto a mayúsculas */
 }
 
-nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* Efecto hover */
+.nav-right {
+    display: flex;
+    gap: 20px; /* Espaciado entre los elementos a la derecha */
+}
+
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: rgba(94, 92, 92, 0.8);
+    min-width: 150px; /* Menos ancho */
+    border-radius: 5px;
+    padding: 10px 0;
+    top: 160%; /* Más abajo de "Categoría" */
+    left: 0;
+    text-align: left; /* Alinear texto a la izquierda */
+}
+
+.dropdown-menu li {
+    padding: 8px 12px;
+}
+
+.dropdown-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+}
+
+/* Mostrar el menú desplegable al pasar el cursor */
+.dropdown:hover .dropdown-menu {
+    display: block;
 }
 
 /* Estilo del pie de página */
