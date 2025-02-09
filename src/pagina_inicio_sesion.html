@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Información sobre la página web e importación de CSS y JS -->
+    <meta charset="UTF-8">
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <header>
+        <h1>Subastas Plan B</h1>
+        <button class="logo-button" onclick="window.location.href='index.html'">
+            <img src="../imgs/logo.webp" alt="Logo" class="logo-icon">
+        </button>
+    </header>
+
+    <main>
+        <section>
+            <div class="contenedor">
+                <h2>Ingrese sus datos</h2>
+                <form action="pagina_inicio_sesion.php" method="post">
+                    <input type="text" name="user" placeholder="Usuario" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="submit" value="Iniciar Sesión">
+                </form>
+                <br>
+                <a href="pagina_forgot_password.html">¿Olvidaste tu contraseña?</a>
+                <br>
+                <a href="crear_usuario.html">¿No tienes cuenta? Crear Usuario</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Subasta Plan B. Todos los derechos reservados.</p>
+    </footer>
+</body>
+
+</html>
