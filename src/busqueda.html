@@ -3,17 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <title>Búsqueda</title>
-        <link rel="stylesheet" href="css/estilos.css">
+        <link rel="stylesheet" href="../css/busqueda.css">
+        <link rel="stylesheet" href="../css/header.css">
     </head>
 
     <body>
         <header>
-            <h1>Búsqueda</h1>
+            <h1>Subasta Plan B</h1>
+            <button class="logo-button" onclick="window.location.href='index.html'">
+                <img src="../imgs/logo.webp" alt="Logo" class="logo-icon">
+            </button>
         </header>
         
         <main>
             <section>
-                <form action="buscar.php" method="get">
+                <form action="resultados_de_busqueda.html" method="get">
                     <input type="text" id="search" name="query" placeholder="Buscar...">
                     <button type="submit">Buscar</button>
                     <button type="reset">Borrar</button>
