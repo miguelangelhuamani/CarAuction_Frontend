@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 # Define el manejador de las solicitudes HTTP
+
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Define la respuesta HTTP
@@ -19,6 +20,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         <body>
             <h1>Hola desde un servidor Python</h1>
             <p>Este es un servidor simple que responde a solicitudes GET.</p>
+            <p>Web de plan B!</p>
+            <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fchannel%2FUCSBilL6FoaKp-RsfYvseHBQ%2Fvideos&psig=AOvVaw2ZSH5PmvrfUH-EApJD8PzO&ust=1738246815643000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKj42JeQm4sDFQAAAAAdAAAAABAE">
         </body>
         </html>"""
 
@@ -32,6 +35,7 @@ if __name__ == "__main__":
     httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
     print("Servidor corriendo en el puerto 8000...")
+ 
     try:
         httpd.serve_forever()  # Mantiene el servidor ejecutándose
     except KeyboardInterrupt:

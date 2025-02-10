@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Usuario</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/crear_usuario.css">
+    <script src="javascript/desplegable.js"></script>
+</head>
+
+<body>
+        <header>
+            <h1>Subasta Plan B</h1>
+            <button class="logo-button" onclick="window.location.href='index.html'">
+                <img src="../imgs/logo.webp" alt="Logo" class="logo-icon">
+            </button>
+        </header>
+
+        <main class="contenedor">
+            <h2>Crear usuario</h2>
+            <form id = "UserForm" action="crear_usuario.php" method="post">
+                <input type="text" name="user" placeholder="Usuario">
+                <input type="text" name="name" placeholder="Nombre">
+                <input type="text" name="lastname" placeholder="Apellidos">
+                <input type="text" name="id" placeholder="DNI/NIE">
+                <input type="email" name="email" placeholder="Correo Electrónico">
+                <label for="birthdate">Fecha de Nacimiento:</label>
+                <input type="date" id="birthdate" name="birthdate">
+                <input type="adress" name="adress" placeholder="Dirección">
+
+                <!-- Desplegable ubicacion -->
+                <select id="comunidad">
+                    <option value="">Selecciona una comunidad</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Cataluña">Cataluña</option>
+                    <option value="Andalucía">Andalucía</option>
+                    <option value="Valencia">Valencia</option>
+                    <option value="País Vasco">País Vasco</option>
+                    <option value="Galicia">Galicia</option>
+                    <option value="Castilla y León">Castilla y León</option>
+                    <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+                    <option value="Extremadura">Extremadura</option>
+                    <option value="Aragón">Aragón</option>
+                    <option value="Asturias">Asturias</option>
+                    <option value="Cantabria">Cantabria</option>
+                    <option value="Murcia">Murcia</option>
+                    <option value="Navarra">Navarra</option>
+                    <option value="La Rioja">La Rioja</option>
+                    <option value="Baleares">Baleares</option>
+                    <option value="Canarias">Canarias</option>
+                    <option value="Ceuta y Melilla">Ceuta y Melilla</option>
+                </select>
+
+                <select id="provincia">
+                    <option value="">Selecciona una provincia</option>
+                </select>
+                
+    <!-- Crear Contraseña -->
+                <input type="password" name="password" placeholder="Contraseña" >
+                <input type="password" name="password2" placeholder="Repetir Contraseña" >
+            
+                <button type="submit">Crear Usuario</button>
+                <button type="button" onclick="document.getElementById('UserForm').reset();">Limpiar formulario</button>
+            </form>
+            <a href="pagina_inicio_sesion.html">Volver a inicio sesión</a>
+            <br>
+            <br>
+            <br>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nombre de la Empresa. Todos los derechos reservados.</p>
+    </footer>
+</body> 
+</html>
