@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
-import { useState } from 'react';
+import { useState } from "react";
 
 const registerUser = async (userData) => {
   try {
