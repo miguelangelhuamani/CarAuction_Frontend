@@ -4,20 +4,20 @@ import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 
 export default function ProfilePage() {
-  const [username, setUsername] = useState(""); // Estado del usuario
-  const [password, setPassword] = useState(""); // Estado de la contraseña
-  const [userData, setUserData] = useState(null); // Estado para el perfil del usuario
-  const [error, setError] = useState(""); // Estado para errores
+  const [username, setUsername] = useState(""); 
+  const [password, setPassword] = useState(""); 
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(""); 
 
-  // Verificar si ya hay sesión activa al cargar la página
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      fetchUserProfile(); // Cargar perfil automáticamente si hay sesión
+      fetchUserProfile();
     }
   }, []);
 
-  // Función para iniciar sesión
+
   const login = async (username, password) => {
     try {
       const response = await fetch(
@@ -35,16 +35,16 @@ export default function ProfilePage() {
       }
 
       const tokenData = await response.json();
-      localStorage.setItem("accessToken", tokenData.access); // Guardar token
-      setError(""); // Limpiar errores
-      fetchUserProfile(); // Cargar perfil automáticamente
+      localStorage.setItem("accessToken", tokenData.access); 
+      setError(""); 
+      fetchUserProfile();
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       setError("Error en la conexión.");
     }
   };
 
-  // Función para obtener perfil del usuario
+
   const fetchUserProfile = async () => {
     try {
       const token = localStorage.getItem("accessToken");
@@ -67,16 +67,16 @@ export default function ProfilePage() {
       }
 
       const userData = await response.json();
-      setUserData(userData); // Guardar datos del usuario en el estado
+      setUserData(userData); 
     } catch (error) {
       console.error("Error al obtener perfil:", error);
     }
   };
 
-  // Función para cerrar sesión
+  
   const logout = () => {
-    localStorage.removeItem("accessToken"); // Eliminar token
-    setUserData(null); // Limpiar datos del usuario
+    localStorage.removeItem("accessToken"); 
+    setUserData(null); 
     setUsername("");
     setPassword("");
   };
@@ -100,13 +100,7 @@ export default function ProfilePage() {
                 login(username, password);
               }}
             >
-              <input
-                type="text"
-                placeholder="Usuario"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+              <input type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} required/>
               <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required/>
               <input type="submit" value="Iniciar Sesión" />
             </form>
