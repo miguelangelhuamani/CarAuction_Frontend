@@ -14,6 +14,7 @@ return (
                     <input type="password" name="password" placeholder="Contraseña" required />
                     <input type="submit" value="Iniciar Sesión" />
         </form>
+        <a href="/crear_usuario">¿No tienes cuenta? Crear Usuario</a>
     </main>
   </div>
 );
