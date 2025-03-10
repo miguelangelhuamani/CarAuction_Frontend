@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import ResultadoBusqueda from '@/components/ResultadoBusqueda/ResultadoBusqueda'; // Importa el componente ResultadoBusqueda
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import ResultadoBusqueda from "@/components/ResultadoBusqueda/ResultadoBusqueda";
 
-
-const ResultadosBusqueda = () => {
+const SearchResultsContent = () => {
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get('searchTerm');
+  const searchTerm = searchParams.get("searchTerm");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    const storedFilteredProducts = localStorage.getItem('filteredProducts');
+    const storedFilteredProducts = localStorage.getItem("filteredProducts");
     if (storedFilteredProducts) {
       setFilteredProducts(JSON.parse(storedFilteredProducts));
     }
@@ -20,8 +19,16 @@ const ResultadosBusqueda = () => {
   return (
     <div>
       <h1>Resultados de la búsqueda</h1>
-      <ResultadoBusqueda products={filteredProducts} /> {/* Muestra los resultados de la búsqueda */}
+      <ResultadoBusqueda products={filteredProducts} />
     </div>
+  );
+};
+
+const ResultadosBusqueda = () => {
+  return (
+    <Suspense fallback={<div>Cargando resultados...</div>}>
+      <SearchResultsContent />
+    </Suspense>
   );
 };
 
