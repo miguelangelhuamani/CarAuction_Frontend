@@ -1,0 +1,11 @@
+.productCard {
+    padding: 0.8rem;
+    background-color: brown;
+    margin: 1rem; /* Ajusta este valor según la separación que desees */
+}
+
+.productCard:hover {
+    background-color: rgb(226, 115, 115);
+    scale: 1.1;
+    transition: 0.4s;
+}

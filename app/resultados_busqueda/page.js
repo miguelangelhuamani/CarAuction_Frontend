@@ -18,7 +18,6 @@ const SearchResultsContent = () => {
 
   return (
     <div>
-      <h1>Resultados de la búsqueda</h1>
       <ResultadoBusqueda products={filteredProducts} />
     </div>
   );
