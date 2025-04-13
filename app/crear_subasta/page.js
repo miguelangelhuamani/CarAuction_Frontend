@@ -17,26 +17,31 @@ export default function CreateAuction() {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-
+  
     const formData = new FormData(event.target);
-
+    const accessToken = localStorage.getItem("accessToken");
+    const decoded = parseJwt(accessToken);
+  
+    if (!decoded || !decoded.user_id) {
+      setError("No se pudo identificar al usuario");
+      return;
+    }
+  
     const auctionData = {
       title: formData.get("title"),
       description: formData.get("description"),
       closing_date: new Date(formData.get("closing_date")).toISOString(),
-      creation_date: new Date().toISOString(),
       thumbnail: formData.get("thumbnail"),
       price: parseFloat(formData.get("price")),
       stock: parseInt(formData.get("stock")),
       rating: parseFloat(formData.get("rating")),
       category: parseInt(formData.get("category")),
       brand: formData.get("brand"),
+      auctioneer: decoded.user_id,
     };
-
-    const accessToken = localStorage.getItem("accessToken");
-
+  
     const result = await docreateAuction(auctionData, accessToken);
-
+  
     if (result.error) {
       setError(result.error);
     } else {
