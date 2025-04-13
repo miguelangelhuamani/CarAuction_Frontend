@@ -30,16 +30,16 @@ export default function CreateAuction() {
     event.preventDefault();
   
     const formData = new FormData(event.target);
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("token-jwt");
   
     const auctionData = {
       title: formData.get("title"),
       description: formData.get("description"),
       closing_date: new Date(formData.get("closing_date")).toISOString(),
       thumbnail: formData.get("thumbnail"),
-      price: parseFloat(formData.get("price")),
+      price: formData.get("price"),
       stock: parseInt(formData.get("stock")),
-      rating: parseFloat(formData.get("rating")),
+      rating: formData.get("rating"),
       category: parseInt(formData.get("category")),
       brand: formData.get("brand")
     };
