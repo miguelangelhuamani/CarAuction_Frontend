@@ -9,6 +9,7 @@ export default function CreateAuction() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [token, setToken] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
           // Acceder a localStorage solo en el cliente
@@ -16,8 +17,6 @@ export default function CreateAuction() {
             setToken(localStorage.getItem("token-jwt"));
           }
       }, []);
-
-      const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const loadCategories = async () => {
