@@ -2,32 +2,10 @@
 
 import styles from "./page.module.css";
 import { useState } from "react";
+import { registerUser } from './utils';
+import { useRouter } from "next/navigation";
 
-const registerUser = async (userData) => {
-  try {
-    const response = await fetch("https://das-p2-backend.onrender.com/api/users/register/", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`Error: ${response.status} - ${errorData}`);
-    }
-
-    const createdUser = await response.json();
-    console.log(createdUser);
-
-    return createdUser;
-  } catch (error) {
-    console.error("Error al registrar usuario:", error);
-    return null;
-  }
-};
-
-
-export default function Home() {
+export default function Register() {
   const comunidades = {
     "Madrid": ["Madrid", "Alcalá de Henares", "Leganés", "Getafe"],
     "Cataluña": ["Barcelona", "Girona", "Tarragona", "Lleida"],
@@ -52,12 +30,17 @@ export default function Home() {
   const [formData, setFormData] = useState({});
   const [provincias, setProvincias] = useState([]);
 
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setError] = useState("");
+
+  const router = useRouter();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    if (e.target.name === 'comunidad') {
+    if (e.target.name === 'municipality') {
       setProvincias(comunidades[e.target.value] || []);
-      setFormData(prev => ({ ...prev, provincia: '' }));
+      setFormData(prev => ({ ...prev, locality: '' }));
     }
   };
 
@@ -71,12 +54,19 @@ export default function Home() {
       first_name: formData.name,
       last_name: formData.lastname,
       birth_date: formData.birthdate,
-      locality: formData.adress,
-      municipality: formData.provincia,
+      municipality: formData.municipality,
+      locality: formData.locality,
     };
 
-    await registerUser(requestData);
-    resetForm();
+    const response = await registerUser(requestData);
+
+    if (response && response.user) {
+      setSuccessMessage("Usuario creado exitosamente!");  // Mensaje de éxito
+      resetForm();
+      router.push("/inicio")
+    } else if (response && response.errors) {
+      setError("Hubo un error en el registro. Inténtalo nuevamente.");  // Manejo de error
+    }
   };
 
   const resetForm = () => {
@@ -91,36 +81,30 @@ export default function Home() {
         <h2>Crear usuario</h2>
         <form id="UserForm" onSubmit={handleSubmit}>
           <input type="text" name="user" placeholder="Usuario" onChange={handleChange} required />
+          <input type="email" name="email" placeholder="Correo Electrónico" onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
           <input type="text" name="name" placeholder="Nombre" onChange={handleChange} required />
           <input type="text" name="lastname" placeholder="Apellidos" onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Correo Electrónico" onChange={handleChange} required />
-
           <label htmlFor="birthdate">Fecha de Nacimiento:</label>
           <input type="date" id="birthdate" name="birthdate" onChange={handleChange} required />
 
-          <input type="text" name="adress" placeholder="Dirección" onChange={handleChange} required />
-
-          <select id="comunidad" name="comunidad" onChange={handleChange} required>
+          <select id="municipality" name="municipality" onChange={handleChange} required>
             <option value="">Selecciona una comunidad</option>
             {Object.keys(comunidades).map((com, index) => (
               <option key={index} value={com}>{com}</option>
             ))}
           </select>
 
-          <select id="provincia" name="provincia" onChange={handleChange} required>
+          <select id="locality" name="locality" onChange={handleChange} required>
             <option value="">Selecciona una provincia</option>
             {provincias.map((provincia, index) => (
               <option key={index} value={provincia}>{provincia}</option>
             ))}
           </select>
 
-          <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
-          <input type="password" name="password2" placeholder="Repetir Contraseña" onChange={handleChange} required />
-
           <button type="submit">Crear Usuario</button>
           <button type="button" onClick={resetForm}>Limpiar formulario</button>
         </form>
-        <a href="/pagina_inicio_sesion">Volver a inicio sesión</a>
       </main>
     </div>
   );
