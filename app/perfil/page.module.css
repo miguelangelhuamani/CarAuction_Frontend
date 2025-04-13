@@ -1,0 +1,32 @@
+.page {
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 2rem;
+}
+
+.h3Title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputField {
+  padding: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.submitButton {
+  padding: 0.5rem;
+  background-color: #d42727;
+  color: white;
+  border-radius: 5px;
+}
