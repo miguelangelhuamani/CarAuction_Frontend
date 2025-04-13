@@ -34,7 +34,7 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
     fetchProducts();
   }, []);
 
-  const handleChange = (event) => {
+  const handleChange = (event) => { // Responsable de manejar el cambio en el input de búsqueda
     setSearchTerm(event.target.value);
     const filteredProducts = products.filter(product =>
       product.name.toLowerCase().includes(event.target.value.toLowerCase())
@@ -43,7 +43,7 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
     onFilteredProducts(filteredProducts);
   };
 
-  const handleSearch = () => {
+  const handleSearch = () => { // Responsable de manejar la búsqueda al hacer clic en el botón
     const filteredProducts = products.filter(product =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
