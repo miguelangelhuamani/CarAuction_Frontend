@@ -38,7 +38,7 @@ export default function MisPujas() {
               <li key={bid.id} className={styles.bidItem}>
                 <strong>Subasta:</strong> {bid.auction_title} <br />
                 <strong>Monto:</strong> {bid.amount}€ <br />
-                <strong>Fecha:</strong> {new Date(bid.timestamp).toLocaleString()}
+                <strong>Fecha:</strong> {new Date(bid.creation_date).toLocaleString()}
               </li>
             ))}
           </ul>
