@@ -3,6 +3,7 @@
 import { docreateAuction, fetchCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import styles from "./page.module.css";
 
 export default function CreateAuction() {
   const router = useRouter();
@@ -63,7 +64,7 @@ return (
         <h2>Crear nueva subasta</h2>
         {error && <p>{error}</p>}
 
-        <form onSubmit={handleOnSubmit}>
+        <form onSubmit={handleOnSubmit} className = {styles.form}>
             <input name="title" placeholder="Título" required />
             <textarea name="description" placeholder="Descripción" required />
             <input type="datetime-local" name="closing_date" placeholder="Fecha de cierre" required />
