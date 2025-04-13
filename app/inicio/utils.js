@@ -9,5 +9,10 @@ export const doLogin = async (username, password) => {
       );
 
     const data = await response.json();
+
+    if (!response.ok) {
+        return { error: data.detail };
+    }
+
     return data;
 };
