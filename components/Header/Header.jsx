@@ -66,6 +66,8 @@ const Header = () => {
                 <>
                     <ul>
                     <li><a href="/perfil">Mi perfil</a></li>
+                    <li><a href="/misSubastas">Mis Subastas</a></li>
+                    <li><a href="/misPujas">Mis Pujas</a></li>
                     <li><a href="#" onClick={handleLogout}>Cerrar Sesión</a></li>
                     </ul>
                 </>
