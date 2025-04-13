@@ -1,9 +1,8 @@
-// components/SearchBar/SearchBar.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
-import styles from './styles.module.css'; // Importa los estilos del módulo CSS
-import ResultadoBusqueda from '@/components/ResultadoBusqueda/ResultadoBusqueda'; // Importa el componente ResultadoBusqueda
+import styles from './styles.module.css';
+import ResultadoBusqueda from '@/components/ResultadoBusqueda/ResultadoBusqueda';
 
 const SearchBar = ({ onFilteredProducts = () => {} }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,21 +12,22 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/docs/productos.json');
+        const response = await fetch('http://127.0.0.1:8000/api/auctions/');
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
         }
+
         const data = await response.json();
-        const items = data.item; // Accede a la propiedad 'item' del JSON
+        const items = data.results;
 
         if (Array.isArray(items)) {
           setProducts(items);
-          setFilteredProducts(items); // Muestra todos los productos inicialmente
+          setFilteredProducts(items);
         } else {
           console.error('Fetched data is not an array:', items);
         }
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching auctions:', error);
       }
     };
 
@@ -35,20 +35,22 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
   }, []);
 
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-    const filteredProducts = products.filter(product =>
-      product.name.toLowerCase().includes(event.target.value.toLowerCase())
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    const filtered = products.filter(product =>
+      product.title && product.title.toLowerCase().includes(term.toLowerCase())
     );
-    setFilteredProducts(filteredProducts);
-    onFilteredProducts(filteredProducts);
+    setFilteredProducts(filtered);
+    onFilteredProducts(filtered);
   };
 
   const handleSearch = () => {
-    const filteredProducts = products.filter(product =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = products.filter(product =>
+      product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    onFilteredProducts(filteredProducts);
-    localStorage.setItem('filteredProducts', JSON.stringify(filteredProducts));
+    onFilteredProducts(filtered);
+    localStorage.setItem('filteredProducts', JSON.stringify(filtered));
     window.location.href = `/resultados_busqueda?searchTerm=${searchTerm}`;
   };
 
@@ -59,10 +61,10 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
         value={searchTerm}
         onChange={handleChange}
         placeholder="Buscar..."
-        className={styles['search-bar']} // Aplica el estilo al input
+        className={styles['search-bar']}
       />
       <button
-        className={styles['search-button']} // Aplica el estilo al botón
+        className={styles['search-button']}
         onClick={handleSearch}
       >
         Buscar

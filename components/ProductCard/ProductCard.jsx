@@ -8,13 +8,11 @@ const ProductCard = ({ product}) => {
 
     return (
         <button className={styles.productCard} onClick={handleClick}>
-            <h3>{product.name}</h3>
+            <h3>{product.title}</h3>
             <p>${product.price}</p>
-            <p>Año: {product.year}</p>
-            <p>Kilometraje: {product.mileage} km</p>
-            <p>Estado: {product.status}</p>
-            <p>Mejor postor: {product.highestBidder}</p>
-            <p>Fin de la subasta: {new Date(product.endTime).toLocaleString()}</p>
+            <p>Año: {product.closing_date}</p>
+            <p>Estado: {product.isOpen ? 'Abierto' : 'Cerrado'}</p>
+            <p>Fin de la subasta: {product.closing_date}</p>
         </button>
     );
 };
