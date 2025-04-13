@@ -1,31 +1,37 @@
 "use client";
 
-import { docreateAuction } from "./utils";
+import { docreateAuction, fetchCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function CreateAuction() {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // cambiar a accessToken
-    // Verifica si el token de acceso existe y es válido
-    setIsLoggedIn(!!token); // !!token devuelve true si el token existe y es válido, false si no
-  }, []); // al montar el componente, verifica si el usuario está autenticado
+          // Acceder a localStorage solo en el cliente
+          if (typeof window !== 'undefined') {
+            setToken(localStorage.getItem("token-jwt"));
+          }
+      }, []);
+
+      const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      const cats = await fetchCategories();
+      setCategories(cats);
+    };
+
+    loadCategories();
+  }, []);
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
   
     const formData = new FormData(event.target);
     const accessToken = localStorage.getItem("accessToken");
-    const decoded = parseJwt(accessToken);
-  
-    if (!decoded || !decoded.user_id) {
-      setError("No se pudo identificar al usuario");
-      return;
-    }
   
     const auctionData = {
       title: formData.get("title"),
@@ -36,8 +42,7 @@ export default function CreateAuction() {
       stock: parseInt(formData.get("stock")),
       rating: parseFloat(formData.get("rating")),
       category: parseInt(formData.get("category")),
-      brand: formData.get("brand"),
-      auctioneer: decoded.user_id,
+      brand: formData.get("brand")
     };
   
     const result = await docreateAuction(auctionData, accessToken);
@@ -49,7 +54,7 @@ export default function CreateAuction() {
     }
   };
 
-  if (!isLoggedIn) {
+  if (!token) {
     return <p>Debes iniciar sesión para crear una subasta.</p>;
   }
 
