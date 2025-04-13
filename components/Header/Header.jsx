@@ -1,79 +1,82 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from "./styles.module.css";
 import Searchbar from "@/components/SearchBar/SearchBar";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
+    const router = useRouter();
+    const [token, setToken] = useState(null);
+    const [userName, setUserName] = useState(null);
 
-  // Solo accedemos a `localStorage` después de que el componente se haya montado en el cliente
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token-jwt");
-      setIsLoggedIn(!!token);  // Cambia el estado según si hay token
-    }
-  }, []);  // Solo se ejecuta una vez, cuando el componente se monta
+    useEffect(() => {
+        // Acceder a localStorage solo en el cliente
+        if (typeof window !== 'undefined') {
+          setToken(localStorage.getItem("token-jwt"));
+          setUserName(localStorage.getItem("userName"));
+        }
+    }, []);
 
-  const logout = async (event) => {
-    event.preventDefault(); // Evita el comportamiento por defecto del enlace
+    const handleLogout = async () => {
+        if (typeof window !== "undefined") {
+          const refreshToken = localStorage.getItem("refresh-token");
+    
+          // Llamada para eliminar (blacklistear) el refresh token
+          if (refreshToken) {
+            try {
+              await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ refresh: refreshToken }),
+              });
+            } catch (error) {
+              console.error("Error al invalidar el refresh token:", error);
+            }
+          }
+    
+          // Limpiar localStorage y estado
+          localStorage.removeItem("token-jwt");
+          localStorage.removeItem("refresh-token");
+          localStorage.removeItem("userName");
+    
+          setToken(null);
+          setUserName(null);
+    
+          // Redirigir al inicio de sesión
+          router.push("/inicio");
+        }
+    };
+    
+    return (
+        <header className={styles.header}>
+        <a href="/">
+            <h2>Subastas Plan B</h2>
+        </a>
 
-    const refreshToken = localStorage.getItem("refresh_token");
+        <Searchbar />
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/log-out/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${refreshToken}`,
-        },
-        body: JSON.stringify({ refresh: refreshToken }),
-      });
+        <nav>
+            <ul>
+            <li>
+                {token ? (
+                <>
+                    <ul>
+                    <li><a href="/perfil">Mi perfil</a></li>
+                    <li><a href="#" onClick={handleLogout}>Cerrar Sesión</a></li>
+                    </ul>
+                </>
+                ) : (
+                <a href="/inicio">Iniciar Sesión</a>
+                )}
+            </li>
+            </ul>
+        </nav>
+        </header>
+    );
+    };
 
-      // Limpiar los elementos del almacenamiento local
-      localStorage.removeItem("token-jwt");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("userName");
-
-      if (!response.ok) {
-        const data = await response.json();
-        console.error("Error al cerrar sesión:", data);
-      }
-
-      setIsLoggedIn(false);  // Actualizar estado después de cerrar sesión
-      window.location.href = "/inicio";  // Redirigir al inicio
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
-
-  return (
-    <header className={styles.header}>
-      <a href="/">
-        <h2>Subastas Plan B</h2>
-      </a>
-
-      <Searchbar />
-
-      <nav>
-        <ul>
-          <li>
-            {isLoggedIn ? (
-              <>
-                <ul>
-                  <li><a href="/perfil">Mi perfil</a></li>
-                  <li><a href="#" onClick={logout}>Cerrar Sesión</a></li>
-                </ul>
-              </>
-            ) : (
-              <a href="/inicio">Iniciar Sesión</a>
-            )}
-          </li>
-        </ul>
-      </nav>
-    </header>
-  );
-};
-
-export default Header;
+    export default Header;
