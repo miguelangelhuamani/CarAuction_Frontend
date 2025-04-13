@@ -12,7 +12,8 @@ export const docreateAuction = async (auctionData, accessToken) => {
     const data = await response.json();
   
     if (!response.ok) {
-      return { error: data.detail || "Error al crear la subasta" };
+        console.error("Error del backend:", data); // 🔥 Aquí verás los detalles
+        return { error: data };
     }
   
     return data;
