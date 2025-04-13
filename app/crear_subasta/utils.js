@@ -1,32 +1,28 @@
-//Esta función solo es para usuarios ya registrados, tenemos que enviar el token de acceso para autenticar la solicitud
-export async function docreateAuction(auctionData, token) {
-  try {
-    const res = await fetch("http://localhost:8000/api/auctions/", {
+export const docreateAuction = async (auctionData, accessToken) => {
+    const response = await fetch("http://127.0.0.1:8000/api/auctions/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(auctionData),
     });
   
-    const data = await response.json();
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (err) {
+      console.warn("Respuesta vacía o malformada");
+    }
   
     if (!response.ok) {
-        console.error("Error del backend:", data);
-        return { error: data };
+      console.error("❌ Error del backend:", data);
+      return { error: data };
     }
-
-    if (!res.ok) {
-      console.error("Error al crear la subasta:", data);
-      return { error: "No se pudo crear la subasta", detail: data };
-    }
-
+  
     return data;
-  } catch (error) {
-    return { error: "Error de red", detail: error };
-  }
-}
+  };
+  
 
   // utils.js
 

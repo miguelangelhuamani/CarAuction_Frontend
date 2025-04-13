@@ -1,22 +1,23 @@
 import React from 'react';
-import styles from './styles.module.css'; // Importa los estilos del módulo CSS
+import styles from './styles.module.css';
 
 const ProductDetail = ({ product }) => {
-          return (
-        <div className={styles.ProductDetail}>
-            <h2>{product.name}</h2>
-            <section>
-                <p>{product.description}</p>
-                <p><strong>Año:</strong> {product.year}</p>
-                <p><strong>Precio:</strong> ${product.price}</p>
-                <p><strong>Kilometraje:</strong> {product.mileage} km</p>
-                <p><strong>Estado:</strong> {product.status}</p>
-                <p><strong>Mejor postor:</strong> {product.highestBidder}</p>
-                <p><strong>Fin de la subasta:</strong> {new Date(product.endTime).toLocaleString()}</p>
-            </section>
-            
-        </div>
-          );
+  return (
+    <div className={styles.ProductDetail}>
+      <h2>{product.title}</h2>
+
+      <section>
+        <p>{product.description}</p>
+        <p><strong>Marca:</strong> {product.brand}</p>
+        <p><strong>Precio inicial:</strong> ${product.price}</p>
+        <p><strong>Stock:</strong> {product.stock}</p>
+        <p><strong>Valoración:</strong> {product.rating}/5</p>
+        <p><strong>Estado:</strong> {product.isOpen ? 'Abierta' : 'Cerrada'}</p>
+        <p><strong>Fecha de cierre:</strong> {new Date(product.closing_date).toLocaleString()}</p>
+        <p><strong>Subastador (ID):</strong> {product.auctioneer_id ?? 'No asignado'}</p>
+      </section>
+    </div>
+  );
 };
 
 export default ProductDetail;

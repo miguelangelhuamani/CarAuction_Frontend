@@ -51,7 +51,7 @@ export default function CreateAuction() {
       rating: formData.get("rating"),
       category: parseInt(formData.get("category")),
       brand: formData.get("brand"),
-      auctioneer: userId,
+      auctioneer_id: userId,
     };
 
     const result = await docreateAuction(auctionData, accessToken);
