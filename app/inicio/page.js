@@ -18,7 +18,7 @@
        const username = formData.get("username");
        const password = formData.get("password");
  
-       setLoading(true);
+       setLoading(true); // Cambia el estado a "cargando"
        try {
            const userLogged = await doLogin(username, password);
  
