@@ -3,6 +3,7 @@
 import { docreateAuction, fetchCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import styles from "./page.module.css";
 
 export default function CreateAuction() {
   const router = useRouter();
@@ -57,42 +58,23 @@ export default function CreateAuction() {
     return <p>Debes iniciar sesión para crear una subasta.</p>;
   }
 
-  // Si hay token, mostrar el formulario
-  return (
+return (
     <div>
-      <h2>Crear nueva subasta</h2>
-      {error && <p>{error}</p>}
+        <h2>Crear nueva subasta</h2>
+        {error && <p>{error}</p>}
 
-      <form onSubmit={handleOnSubmit}>
-        <input name="title" placeholder="Título" required />
-        <br />
-        <textarea name="description" placeholder="Descripción" required />
-        <br />
-        <input type="datetime-local" name="closing_date" required />
-        <br />
-        <input name="thumbnail" placeholder="URL de imagen" required />
-        <br />
-        <input name="price" type="number" step="0.01" placeholder="Precio inicial" required />
-        <br />
-        <input name="stock" type="number" placeholder="Stock" required />
-        <br />
-        <input name="rating" type="number" step="0.1" placeholder="Valoración" required />
-        <br />
-        <label htmlFor="category">Categoría:</label>
-        <select name="category" required>
-          <option value="">Selecciona una categoría</option>
-          {Array.isArray(categories) &&
-            categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-        </select>
-        <br />
-        <input name="brand" placeholder="Marca" required />
-        <br />
-        <button type="submit">Crear subasta</button>
-      </form>
+        <form onSubmit={handleOnSubmit} className = {styles.form}>
+            <input name="title" placeholder="Título" required />
+            <textarea name="description" placeholder="Descripción" required />
+            <input type="datetime-local" name="closing_date" placeholder="Fecha de cierre" required />
+            <input name="thumbnail" placeholder="URL de imagen" required />
+            <input name="price" type="number" step="0.01" placeholder="Precio inicial" required />
+            <input name="stock" type="number" placeholder="Stock" required />
+            <input name="rating" type="number" step="0.1" placeholder="Valoración" required />
+            <input name="category" type="number" placeholder="ID categoría" required />
+            <input name="brand" placeholder="Marca" required />
+            <button type="submit">Crear subasta</button>
+        </form>
     </div>
-  );
+);
 }
