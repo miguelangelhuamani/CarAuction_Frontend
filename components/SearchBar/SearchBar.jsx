@@ -3,35 +3,22 @@
 import { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import ResultadoBusqueda from '@/components/ResultadoBusqueda/ResultadoBusqueda';
+import { fetchCategories } from './utils';
+import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
 const SearchBar = ({ onFilteredProducts = () => {} }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auctions/');
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const items = data.results;
-
-        if (Array.isArray(items)) {
-          setProducts(items);
-          setFilteredProducts(items);
-        } else {
-          console.error('Fetched data is not an array:', items);
-        }
-      } catch (error) {
-        console.error('Error fetching auctions:', error);
-      }
+    const loadCategories = async () => {
+      const cats = await fetchCategories();
+      setCategories(cats);
     };
-
-    fetchProducts();
+    loadCategories();
   }, []);
 
   const handleChange = (event) => {
@@ -39,17 +26,55 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
     setSearchTerm(term);
 
     const filtered = products.filter(product =>
-      product.title && product.title.toLowerCase().includes(term.toLowerCase())
+      product.title?.toLowerCase().includes(term.toLowerCase())
     );
     setFilteredProducts(filtered);
     onFilteredProducts(filtered);
   };
 
-  const handleSearch = () => {
-    const filtered = products.filter(product =>
-      product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const fetchProducts = async () => {
+    try {
+      let response;
+      if (category) {
+        console.log('Fetching products of category:', category);
+        response = await fetch(`http://127.0.0.1:8000/api/auctions/categories/${category}/auctions`);
+      } else {
+        console.log('Fetching all products');
+        response = await fetch('http://127.0.0.1:8000/api/auctions/');
+      }
+
+      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
+      const data = await response.json();
+      const items = data.results;
+
+      if (Array.isArray(items)) {
+        setProducts(items);
+        setFilteredProducts(items);
+        return items; 
+      } else {
+        console.error('Datos obtenidos no son un array:', items);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+      return [];
+    }
+  };
+
+  const handleCategoryChange = (selectedCategoryId) => {
+    setCategory(selectedCategoryId);
+  };
+
+  const handleSearch = async () => {
+    const fetchedProducts = await fetchProducts();
+    const filtered = fetchedProducts.filter(product =>
+      product.title?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    setFilteredProducts(filtered);
     onFilteredProducts(filtered);
+
     localStorage.setItem('filteredProducts', JSON.stringify(filtered));
     window.location.href = `/resultados_busqueda?searchTerm=${searchTerm}`;
   };
@@ -69,6 +94,7 @@ const SearchBar = ({ onFilteredProducts = () => {} }) => {
       >
         Buscar
       </button>
+      <CategorySelect categories={categories} onChange={handleCategoryChange} />
     </div>
   );
 };

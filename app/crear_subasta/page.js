@@ -4,6 +4,7 @@ import { docreateAuction, fetchCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
 export default function CreateAuction() {
   const router = useRouter();
@@ -100,15 +101,7 @@ export default function CreateAuction() {
         <input name="rating" type="number" step="0.1" placeholder="Valoración" required />
 
         <label htmlFor="category">Categoría:</label>
-        <select name="category" required>
-          <option value="">Selecciona una categoría</option>
-          {Array.isArray(categories) &&
-            categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-        </select>
+        <CategorySelect categories={categories} name="category" required />
 
         <input name="brand" placeholder="Marca" required />
         <button type="submit">Crear subasta</button>
