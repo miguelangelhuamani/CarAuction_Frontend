@@ -5,9 +5,12 @@ import { useSearchParams } from "next/navigation";
 import ResultadoBusqueda from "@/components/ResultadoBusqueda/ResultadoBusqueda";
 
 const SearchResultsContent = () => {
+  // mover dentro del searchbar
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("searchTerm");
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  //useEffect que llame a fetchProducts
 
   useEffect(() => {
     const storedFilteredProducts = localStorage.getItem("filteredProducts");
