@@ -11,8 +11,9 @@ const ProductDetail = ({ product }) => {
         <p><strong>Marca:</strong> {product.brand}</p>
         <p><strong>Precio inicial:</strong> ${product.price}</p>
         <p><strong>Stock:</strong> {product.stock}</p>
-        <p><strong>Valoración:</strong> {product.rating}/5</p>
+        <p>Valoración: {product.avg_rating ? product.avg_rating : "Sin valorar"}</p>
         <p><strong>Estado:</strong> {product.isOpen ? 'Abierta' : 'Cerrada'}</p>
+        <p><strong>Fecha de creación:</strong> {new Date(product.creation_date).toLocaleString()}</p>  
         <p><strong>Fecha de cierre:</strong> {new Date(product.closing_date).toLocaleString()}</p>
         <p><strong>Subastador:</strong> {product.auctioneer ?? 'No asignado'}</p>
       </section>
