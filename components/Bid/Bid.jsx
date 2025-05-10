@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createBid } from "./utils";
 
 const Bid = ({ productoId }) => {
   const [amount, setAmount] = useState("");
@@ -17,31 +18,21 @@ const Bid = ({ productoId }) => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/auctions/${productoId}/bids/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({amount: parseFloat(amount)}),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data?.detail || data?.non_field_errors?.[0] || "Error al pujar");
-      } else {
-        setMensaje("¡Puja enviada con éxito!");
-        setAmount("");
-        setError(null);
-      }
+      await createBid(productoId, amount, token);
+      setMensaje("¡Puja enviada con éxito!");
+      setAmount("");
+      setError(null);
     } catch (err) {
-      setError("Error de red al enviar la puja.");
+      setError(err.message);
+      setMensaje(null);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+    >
       <input
         type="number"
         step="0.01"

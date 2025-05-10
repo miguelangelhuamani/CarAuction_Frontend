@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from "./styles.module.css";
-import Searchbar from "@/components/SearchBar/SearchBar";
+
 
 const Header = () => {
     const router = useRouter();
@@ -57,10 +57,9 @@ const Header = () => {
             <h2>Subastas Plan B</h2>
         </a>
 
-          <Searchbar onFilteredProducts={(filteredProducts) => console.log(filteredProducts)}/>
-          <Link href="/resultados_busqueda" style={{ marginLeft: "20px" }}>
+        <Link href="/todas_subastas" style={{ marginLeft: "20px" }}>
             Todas las subastas
-          </Link>
+        </Link>
 
         <nav>
             <ul>

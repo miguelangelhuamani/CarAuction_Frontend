@@ -15,7 +15,7 @@ export async function fetchCategories() {
 export const fetchProducts = async (category, searchTerm) => {
   try {
     let url = "http://127.0.0.1:8000/api/auctions";
-
+    
     const queryParams = new URLSearchParams();
     if (category) {
       queryParams.append("category", category);

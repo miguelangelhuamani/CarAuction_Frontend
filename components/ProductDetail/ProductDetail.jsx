@@ -14,7 +14,7 @@ const ProductDetail = ({ product }) => {
         <p><strong>Valoración:</strong> {product.rating}/5</p>
         <p><strong>Estado:</strong> {product.isOpen ? 'Abierta' : 'Cerrada'}</p>
         <p><strong>Fecha de cierre:</strong> {new Date(product.closing_date).toLocaleString()}</p>
-        <p><strong>Subastador (ID):</strong> {product.auctioneer_id ?? 'No asignado'}</p>
+        <p><strong>Subastador:</strong> {product.auctioneer ?? 'No asignado'}</p>
       </section>
     </div>
   );
