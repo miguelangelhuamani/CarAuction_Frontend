@@ -4,6 +4,7 @@ import { docreateAuction, fetchCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
 export default function CreateAuction() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function CreateAuction() {
   const [success, setSuccess] = useState("");
   const [token, setToken] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [categorySelect, setCategory] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -49,12 +51,13 @@ export default function CreateAuction() {
       price: formData.get("price"),
       stock: parseInt(formData.get("stock")),
       rating: formData.get("rating"),
-      category: parseInt(formData.get("category")),
+      category: parseInt(categorySelect),
       brand: formData.get("brand"),
       auctioneer_id: userId,
     };
 
     const result = await docreateAuction(auctionData, accessToken);
+
 
     if (result.error) {
       setError(result.error);
@@ -65,6 +68,10 @@ export default function CreateAuction() {
       }, 2000);
     }
   };
+
+  const handleCategoryChange = (selectedCategoryId) => {
+    setCategory(selectedCategoryId);
+  }; 
 
   if (!token) {
     return <p>Debes iniciar sesión para crear una subasta.</p>;
@@ -93,6 +100,7 @@ export default function CreateAuction() {
       <form onSubmit={handleOnSubmit} className={styles.form}>
         <input name="title" placeholder="Título" required />
         <textarea name="description" placeholder="Descripción" required />
+        <label htmlFor="closing_date">Fecha de cierre:</label>
         <input type="datetime-local" name="closing_date" required />
         <input name="thumbnail" placeholder="URL de imagen" required />
         <input name="price" type="number" step="0.01" placeholder="Precio inicial" required />
@@ -100,15 +108,7 @@ export default function CreateAuction() {
         <input name="rating" type="number" step="0.1" placeholder="Valoración" required />
 
         <label htmlFor="category">Categoría:</label>
-        <select name="category" required>
-          <option value="">Selecciona una categoría</option>
-          {Array.isArray(categories) &&
-            categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-        </select>
+        <CategorySelect categories={categories} onChange={handleCategoryChange} />
 
         <input name="brand" placeholder="Marca" required />
         <button type="submit">Crear subasta</button>

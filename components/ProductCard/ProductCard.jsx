@@ -11,6 +11,7 @@ const ProductCard = ({ product}) => {
             <h3>{product.title}</h3>
             <p>${product.price}</p>
             <p>Año: {product.closing_date}</p>
+            <p>Categoría: {product.category_name}</p>
             <p>Estado: {product.isOpen ? 'Abierto' : 'Cerrado'}</p>
             <p>Fin de la subasta: {product.closing_date}</p>
         </button>

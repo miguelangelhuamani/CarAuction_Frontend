@@ -1,74 +1,48 @@
 'use client';
-
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
-import ResultadoBusqueda from '@/components/ResultadoBusqueda/ResultadoBusqueda';
+import { fetchCategories, fetchProducts } from './utils';
+import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
-const SearchBar = ({ onFilteredProducts = () => {} }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const SearchBar = ({ setFetchedProducts }) => {
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auctions/');
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const items = data.results;
-
-        if (Array.isArray(items)) {
-          setProducts(items);
-          setFilteredProducts(items);
-        } else {
-          console.error('Fetched data is not an array:', items);
-        }
-      } catch (error) {
-        console.error('Error fetching auctions:', error);
-      }
+    const loadCategories = async () => {
+      const cats = await fetchCategories();
+      setCategories(cats);
     };
-
-    fetchProducts();
+    loadCategories();
   }, []);
 
-  const handleChange = (event) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-
-    const filtered = products.filter(product =>
-      product.title && product.title.toLowerCase().includes(term.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-    onFilteredProducts(filtered);
+  const handleCategoryChange = (selectedCategoryId) => {
+    setCategory(selectedCategoryId);
   };
 
-  const handleSearch = () => {
-    const filtered = products.filter(product =>
-      product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    onFilteredProducts(filtered);
-    localStorage.setItem('filteredProducts', JSON.stringify(filtered));
-    window.location.href = `/resultados_busqueda?searchTerm=${searchTerm}`;
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const searchTerm = formData.get("search");
+
+    const products = await fetchProducts(category, searchTerm);
+    setFetchedProducts(products);
   };
 
   return (
-    <div className={styles['search-bar-container']}>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleChange}
-        placeholder="Buscar..."
-        className={styles['search-bar']}
-      />
-      <button
-        className={styles['search-button']}
-        onClick={handleSearch}
-      >
-        Buscar
-      </button>
+    <div className={styles.searchBarContainer}>
+      <form onSubmit={handleOnSubmit}>
+        <input
+          type="text"
+          name="search"
+          placeholder="Buscar..."
+          className={styles.searchBar}
+        />
+        <button className={styles.searchButton} type="submit">
+          Buscar
+        </button>
+      </form>
+      <CategorySelect categories={categories} onChange={handleCategoryChange} />
     </div>
   );
 };
