@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.css';
+import Comment from '../Comment/Comment';
 
 const ProductDetail = ({ product }) => {
   return (
@@ -16,6 +17,7 @@ const ProductDetail = ({ product }) => {
         <p><strong>Fecha de creación:</strong> {new Date(product.creation_date).toLocaleString()}</p>  
         <p><strong>Fecha de cierre:</strong> {new Date(product.closing_date).toLocaleString()}</p>
         <p><strong>Subastador:</strong> {product.auctioneer ?? 'No asignado'}</p>
+        <Comment productoId={product.id} />
       </section>
     </div>
   );
