@@ -29,10 +29,7 @@ export default function CreateAuction() {
     loadCategories();
   }, []);
   
-  function getUserId(token) {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.user_id;
-  }
+
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -40,8 +37,6 @@ export default function CreateAuction() {
     setSuccess("");
 
     const formData = new FormData(event.target);
-    const accessToken = localStorage.getItem("token-jwt");
-    const userId = getUserId(accessToken);
 
     const auctionData = {
       title: formData.get("title"),
@@ -52,10 +47,9 @@ export default function CreateAuction() {
       stock: parseInt(formData.get("stock")),
       category: parseInt(categorySelect),
       brand: formData.get("brand"),
-      auctioneer_id: userId,
     };
 
-    const result = await docreateAuction(auctionData, accessToken);
+    const result = await docreateAuction(auctionData, token);
 
 
     if (result.error) {
