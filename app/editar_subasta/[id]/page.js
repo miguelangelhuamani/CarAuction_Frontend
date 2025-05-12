@@ -1,18 +1,20 @@
 "use client";
 
-import { docreateAuction, fetchCategories } from "./utils";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { fetchCategories, doEditAuction } from "./utils";
 import styles from "./page.module.css";
 import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
-export default function CreateAuction() {
+export default function EditAuctionPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { id } = useParams();
+
   const [token, setToken] = useState(null);
   const [categories, setCategories] = useState([]);
   const [categorySelect, setCategory] = useState(null);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,7 +30,11 @@ export default function CreateAuction() {
 
     loadCategories();
   }, []);
-  
+
+  const handleCategoryChange = (selectedCategoryId) => {
+    setCategory(selectedCategoryId);
+  };
+
   function getUserId(token) {
     const payload = JSON.parse(atob(token.split(".")[1]));
     return payload.user_id;
@@ -40,8 +46,7 @@ export default function CreateAuction() {
     setSuccess("");
 
     const formData = new FormData(event.target);
-    const accessToken = localStorage.getItem("token-jwt");
-    const userId = getUserId(accessToken);
+    const userId = getUserId(token);
 
     const auctionData = {
       title: formData.get("title"),
@@ -53,32 +58,26 @@ export default function CreateAuction() {
       category: parseInt(categorySelect),
       brand: formData.get("brand"),
       auctioneer_id: userId,
+      
     };
 
-    const result = await docreateAuction(auctionData, accessToken);
-
+    const result = await doEditAuction(id, auctionData, token);
 
     if (result.error) {
       setError(result.error);
     } else {
-      setSuccess("✅ Subasta creada con éxito");
+      setSuccess("✅ Subasta actualizada con éxito");
       setTimeout(() => {
         router.push("/");
       }, 2000);
     }
   };
 
-  const handleCategoryChange = (selectedCategoryId) => {
-    setCategory(selectedCategoryId);
-  }; 
-
-  if (!token) {
-    return <p>Debes iniciar sesión para crear una subasta.</p>;
-  }
+  if (!token) return <p>Debes iniciar sesión para editar una subasta.</p>;
 
   return (
     <div>
-      <h2>Crear nueva subasta</h2>
+      <h2>Editar subasta #{id}</h2>
 
       {error && (
         <div>
@@ -109,7 +108,7 @@ export default function CreateAuction() {
         <CategorySelect categories={categories} onChange={handleCategoryChange} />
 
         <input name="brand" placeholder="Marca" required />
-        <button type="submit">Crear subasta</button>
+        <button type="submit">Guardar cambios</button>
       </form>
     </div>
   );

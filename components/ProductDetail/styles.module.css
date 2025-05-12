@@ -1,5 +1,4 @@
 
-
 .ProductDetail h2 {
   font-size: 1.5rem;
     margin: 1rem 0;
@@ -7,16 +6,16 @@
     color: red;
 }
 
-
 .ProductDetail section {
   display: flex;
-  margin: 1rem;
   flex-direction: column;
   justify-content: flex-start;
   border: 0.3rem solid brown;
   border-radius: 1rem;
-  gap:0.3rem;
+  gap: 0.3rem;
   padding: 1rem;
-
   background-color: #cc0b0b;
+
+  max-width: 700px;      
+  margin: 2rem 0 2rem 1rem;  
 }

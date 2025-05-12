@@ -13,6 +13,7 @@ const ProductCard = ({ product}) => {
             <p>Año: {product.closing_date}</p>
             <p>Categoría: {product.category_name}</p>
             <p>Estado: {product.isOpen ? 'Abierto' : 'Cerrado'}</p>
+            <p>Valoración: {product.avg_rating ? product.avg_rating : "Sin valorar"}</p>
             <p>Fin de la subasta: {product.closing_date}</p>
         </button>
     );

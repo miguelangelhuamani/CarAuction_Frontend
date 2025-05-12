@@ -14,10 +14,12 @@ const ResultadoBusqueda = ({ products }) => {
             Crear Subasta
           </button>
         </header>
+      
         <main className={styles.main}>
           <div className={styles.resultados_busqueda}>
             {products.length > 0 ? (
               products.map((product, index) => (
+                console.log(product),
                 <ProductCard key={index} product={product} />
               ))
             ) : (
