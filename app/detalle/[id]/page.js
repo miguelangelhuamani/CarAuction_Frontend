@@ -110,7 +110,6 @@ const Detalle = () => {
 
 
     } catch (error) {
-      console.error("Error al editar la valoración:", error);
       setErrorMessage("Ya has valorado esta subasta");
     }
   

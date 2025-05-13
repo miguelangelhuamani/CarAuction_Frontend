@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import { fetchCategories, fetchProducts } from './utils';
 import CategorySelect from "@/components/CategorySelect/CategorySelect";
+import IsOpen from "@/components/IsOpen/IsOpen";
 
 const SearchBar = ({ setFetchedProducts }) => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(null);
+  const [open, setOpen] = useState(null);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -25,9 +27,13 @@ const SearchBar = ({ setFetchedProducts }) => {
     const formData = new FormData(event.target);
     const searchTerm = formData.get("search");
 
-    const products = await fetchProducts(category, searchTerm);
+    const products = await fetchProducts(category, searchTerm, open);
     setFetchedProducts(products);
   };
+
+  const handleOpenChange = (selectedOpen) => {
+    setOpen(selectedOpen)
+  }
 
   return (
     <div className={styles.searchBarContainer}>
@@ -43,6 +49,7 @@ const SearchBar = ({ setFetchedProducts }) => {
         </button>
       </form>
       <CategorySelect categories={categories} onChange={handleCategoryChange} />
+      <IsOpen onChange= {handleOpenChange}></IsOpen>
     </div>
   );
 };
