@@ -5,9 +5,10 @@ import ProductCard from '@/components/ProductCard/ProductCard'; // Importa el co
 
 const ResultadoBusqueda = ({ products }) => {
     return (
-      <>
+      <div className={styles.container}>
         <header className={styles.header}>
           <h2>Resultados de la búsqueda</h2>
+          <p>La búsqueda debe tener al menos dos carácteres</p>
           <button
             className={styles.crear_subasta}
             onClick={() => window.location.href = '/crear_subasta'}>
@@ -23,11 +24,11 @@ const ResultadoBusqueda = ({ products }) => {
                 <ProductCard key={index} product={product} />
               ))
             ) : (
-              <p>No se encontraron productos.</p>
+              <p>Cargando...</p>
             )}
           </div>
         </main>
-      </>
+      </div>
     );
   };
 

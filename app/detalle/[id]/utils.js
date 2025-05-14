@@ -71,14 +71,11 @@ export const getMyRating = async (auctionId, token) => {
     const response = await fetch(`http://127.0.0.1:8000/api/auctions/${auctionId}/my-rating/`, {
       method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!response.ok) {
-      console.log(auctionId);
-      throw new Error("No se pudo obtener la valoración");
-    }
 
     const data = await response.json();
     return data;

@@ -6,7 +6,7 @@ export async function doLogout(setToken, setUserName, router) {
       // Llamada para eliminar (blacklistear) el refresh token
       if (refreshToken) {
         try {
-          await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+          await fetch("http://127.0.0.1:8000/api/users/log-out", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
