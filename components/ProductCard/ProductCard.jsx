@@ -10,7 +10,6 @@ const ProductCard = ({ product}) => {
         <button className={styles.productCard} onClick={handleClick}>
             <h3>{product.title}</h3>
             <p>${product.price}</p>
-            <p>Año: {product.closing_date}</p>
             <p>Categoría: {product.category_name}</p>
             <p>Estado: {product.isOpen ? 'Abierto' : 'Cerrado'}</p>
             <p>Valoración: {product.avg_rating ? product.avg_rating : "Sin valorar"}</p>

@@ -36,6 +36,7 @@ const Detalle = () => {
       try {
         const data = await fetchAuctionDetail(id);
         setProduct(data);
+        console.log(data.bids)
       } catch (error) {
         console.error("Error al cargar el producto:", error);
       }
@@ -115,7 +116,6 @@ const Detalle = () => {
   
   }
     
-  
 
   return (
     <div>
@@ -136,7 +136,6 @@ const Detalle = () => {
                 Editar subasta
                 </button>
 
-
               </div>
               ) : (
                 <div>
@@ -144,7 +143,6 @@ const Detalle = () => {
                   <Bid productoId={product.id} />
                 </div>
               )}
-
 
             {myRatingId ? (
               <>
@@ -170,8 +168,6 @@ const Detalle = () => {
 
             </main>
           
-          
-
         </>
       ) : (
         <p>Cargando...</p>
