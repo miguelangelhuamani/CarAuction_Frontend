@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getUserProfile, changeUserPassword } from "./utils";
+import { getUserProfile, changeUserPassword, getMyWallet} from "./utils";
 import styles from "./page.module.css";
+import { deposit, withdraw } from "./utils";
 
 export default function PerfilPage() {
   const router = useRouter();
@@ -24,11 +25,21 @@ export default function PerfilPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [userWallet, setUserWallet] = useState(null);
+  const [walletError, setWalletError] = useState("");
+  const [walletSuccess, setWalletSuccess] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token-jwt");
     setToken(token);
 
+    const getUserWallet = async (token) => {
+
+      const wallet = await getMyWallet(token);
+      console.log(wallet)
+      setUserWallet(wallet);
+
+    }
     if (token) {
       getUserProfile(token).then((data) => {
         setUserData({
@@ -41,10 +52,16 @@ export default function PerfilPage() {
           last_name: data.last_name || "",
         });
       });
+
+      getUserWallet(token);
+
     } else {
       router.push("/inicio");
     }
   }, []);
+
+
+
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -66,6 +83,36 @@ export default function PerfilPage() {
       setPasswordError(err.message || "Error al cambiar la contraseña.");
     }
   };
+
+  const handleDeposit = async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const amount = formData.get("amount");
+      const result = await deposit(token, amount);
+      const wallet = await getMyWallet(token);
+
+      setUserWallet(wallet);
+      if (result.error) {
+        setWalletError(result.error);
+      } else {
+        setWalletSuccess("Depósito realizado con éxito.");
+      }
+    };
+  const handleWithdrawal = async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const amount = formData.get("amount");
+      const result = await withdraw(token, amount);
+      const wallet = await getMyWallet(token);
+
+      setUserWallet(wallet);
+      if (result.error) {
+        setWalletError(result.error);
+      } else {
+        setWalletSuccess("Retiro realizado con éxito.");
+      }
+    };
+
 
   return (
     <div className={styles.page}>
@@ -115,6 +162,40 @@ export default function PerfilPage() {
           {passwordSuccess && <p className={styles.success}>{passwordSuccess}</p>}
           <button type="submit" className={styles.submitButton}>Cambiar contraseña</button>
         </form>
+        {userWallet?(
+          <div>
+            <p>Balance actual en la cuenta {userWallet.balance} </p>
+            <form onSubmit={handleDeposit}>
+              <input
+                type="number"
+                name="amount"
+                min="0"
+                step="0.01"
+                placeholder="Cantidad a añadir (€)"
+                required
+              />
+              <button type = "input">Depositar</button>
+            </form>
+
+            <form onSubmit = {handleWithdrawal}>
+              <input
+                type="number"
+                name="amount"
+                min="0"
+                step="0.01"
+                placeholder="Cantidad a retirar (€)"
+                required
+              />
+              <button type = "input">Retirar</button>
+            </form>
+            {walletError && <p className={styles.error}>{walletError}</p>}
+            {walletSuccess && <p className={styles.success}>{walletSuccess}</p>}
+
+
+          </div>):
+        (
+          <button onClick={()=>router.push("introducir_cartera")}>Añadir método de pago</button>
+        )}
       </main>
     </div>
   );

@@ -1,18 +1,20 @@
 "use client";
 
-import { docreateAuction, fetchCategories, createCategories } from "./utils";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { fetchCategories, doEditAuction, createCategories } from "./utils";
 import styles from "./page.module.css";
 import CategorySelect from "@/components/CategorySelect/CategorySelect";
 
-export default function CreateAuction() {
+export default function EditAuctionPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { id } = useParams();
+
   const [token, setToken] = useState(null);
   const [categories, setCategories] = useState([]);
   const [categorySelect, setCategory] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [newcategory, setNewCategory] = useState("");
 
   useEffect(() => {
@@ -29,8 +31,15 @@ export default function CreateAuction() {
 
     loadCategories();
   }, []);
-  
 
+  // const handleCategoryChange = (selectedCategoryId) => {
+  //   setCategory(selectedCategoryId);
+  // };
+
+  function getUserId(token) {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.user_id;
+  }
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -38,9 +47,10 @@ export default function CreateAuction() {
     setSuccess("");
 
     const formData = new FormData(event.target);
+    const userId = getUserId(token);
 
     let finalCategoryId = null;
-
+    
     if (categorySelect === "nueva") {
       if (!newcategory) {
         setError("Por favor, escribe el nombre de la nueva categoría");
@@ -59,6 +69,7 @@ export default function CreateAuction() {
       finalCategoryId = parseInt(categorySelect);
     }
 
+
     // const auctionData = {
     //   title: formData.get("title"),
     //   description: formData.get("description"),
@@ -68,32 +79,31 @@ export default function CreateAuction() {
     //   stock: parseInt(formData.get("stock")),
     //   category: finalCategoryId,
     //   brand: formData.get("brand"),
+    //   auctioneer_id: userId,
+      
     // };
-    // console.log("Auction data:", auctionData);
     formData.set("closing_date", new Date(formData.get("closing_date")).toISOString());
     formData.set("category", finalCategoryId);
 
-    //const result = await docreateAuction(auctionData, token);
-    const result = await docreateAuction(formData, token);
 
+    //const result = await doEditAuction(id, auctionData, token);
+    const result = await doEditAuction(id, formData, token);
 
     if (result.error) {
       setError(result.error);
     } else {
-      setSuccess("✅ Subasta creada con éxito");
+      setSuccess("✅ Subasta actualizada con éxito");
       setTimeout(() => {
         router.push("/");
       }, 2000);
     }
   };
 
-  if (!token) {
-    return <p>Debes iniciar sesión para crear una subasta.</p>;
-  }
+  if (!token) return <p>Debes iniciar sesión para editar una subasta.</p>;
 
   return (
     <div>
-      <h2>Crear nueva subasta</h2>
+      <h2>Editar subasta #{id}</h2>
 
       {error && (
         <div>
@@ -122,7 +132,7 @@ export default function CreateAuction() {
         <textarea name="description" placeholder="Descripción" required />
         <label htmlFor="closing_date">Fecha de cierre:</label>
         <input type="datetime-local" name="closing_date" required />
-        <input type="file" name="image" accept="image/*" required placeholder="Imagen"/>
+         <input type="file" name="image" accept="image/*" required placeholder="Imagen"/>
         <input name="price" type="number" step="0.01" placeholder="Precio inicial" required />
         <input name="stock" type="number" placeholder="Stock" required />
 
@@ -130,7 +140,7 @@ export default function CreateAuction() {
         <CategorySelect categories={categories} category={categorySelect} setCategory={setCategory} newCategory={newcategory} setNewCategory={setNewCategory}/>
 
         <input name="brand" placeholder="Marca" required />
-        <button type="submit">Crear subasta</button>
+        <button type="submit">Guardar cambios</button>
       </form>
     </div>
   );

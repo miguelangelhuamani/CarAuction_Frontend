@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { getUserAuctions } from "./utils";
 import styles from "./page.module.css";
+import { useRouter } from "next/navigation";
 
 export default function MisSubastas() {
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchUserAuctions() {
@@ -24,7 +26,7 @@ export default function MisSubastas() {
   }, []);
 
   return (
-    <div className={styles.page}>
+    <div className={styles.estilo}>
       <main className={styles.main}>
         <h2>Mis Subastas</h2>
 
@@ -34,11 +36,10 @@ export default function MisSubastas() {
           <ul>
             {auctions.length > 0 ? (
               auctions.map((auction) => (
-                <li key={auction.id}>
-                  <h3>{auction.title}</h3>
-                  <p>{auction.description}</p>
-                  <p>Cierre: {auction.closing_date}</p>
-                </li>
+                <div key={auction.id} className={styles.estilo}>
+                  <li>Mi subasta: {auction.title}</li>
+                  <button onClick={() => router.push(`/detalle/${auction.id}`)}>Ver mi subasta</button>
+                </div>               
               ))
             ) : (
               <p>No tienes subastas creadas.</p>
