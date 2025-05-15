@@ -15,10 +15,9 @@ export async function doEditAuction(auctionId, auctionData, accessToken) {
     const response = await fetch(`http://localhost:8000/api/auctions/${auctionId}/`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(auctionData),
+      body: auctionData,
     });
 
     let data = {};
@@ -35,3 +34,22 @@ export async function doEditAuction(auctionId, auctionData, accessToken) {
     return data;
 
     }
+
+
+export async function createCategories(nombre, accessToken) {
+  const res = await fetch("http://localhost:8000/api/auctions/categories/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ name: nombre }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.detail || 'Error al crear la categoría');
+  }
+
+  return await res.json(); // ← Esto te devuelve la categoría creada
+}

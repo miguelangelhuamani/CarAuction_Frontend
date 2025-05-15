@@ -12,7 +12,7 @@ export async function fetchCategories() {
     }
 }
 
-export const fetchProducts = async (category, searchTerm, open) => {
+export const fetchProducts = async (category, searchTerm, open, order) => {
   try {
     let url = "http://127.0.0.1:8000/api/auctions";
     
@@ -27,6 +27,10 @@ export const fetchProducts = async (category, searchTerm, open) => {
 
     if (open){
       queryParams.append("open", open)
+    }
+
+    if (order){
+      queryParams.append("order", order)
     }
 
 

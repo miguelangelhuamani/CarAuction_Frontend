@@ -2,13 +2,15 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import { fetchCategories, fetchProducts } from './utils';
-import CategorySelect from "@/components/CategorySelect/CategorySelect";
+import CategoryFilter from "@/components/CategoryFilter/CategoryFilter";
 import IsOpen from "@/components/IsOpen/IsOpen";
+import OrderFilter from '../OrderFilter/OrderFilter';
 
 const SearchBar = ({ setFetchedProducts }) => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(null);
   const [open, setOpen] = useState(null);
+  const [order, setOrder] = useState(null);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -27,12 +29,16 @@ const SearchBar = ({ setFetchedProducts }) => {
     const formData = new FormData(event.target);
     const searchTerm = formData.get("search");
 
-    const products = await fetchProducts(category, searchTerm, open);
+    const products = await fetchProducts(category, searchTerm, open, order);
     setFetchedProducts(products);
   };
 
   const handleOpenChange = (selectedOpen) => {
     setOpen(selectedOpen)
+  }
+
+  const handleOrderChange = (selectedOrder) => {
+    setOrder(selectedOrder)
   }
 
   return (
@@ -48,8 +54,10 @@ const SearchBar = ({ setFetchedProducts }) => {
           Buscar
         </button>
       </form>
-      <CategorySelect categories={categories} onChange={handleCategoryChange} />
+      <CategoryFilter categories={categories} onChange={handleCategoryChange} />
       <IsOpen onChange= {handleOpenChange}></IsOpen>
+      <OrderFilter onChange={handleOrderChange}></OrderFilter>
+
     </div>
   );
 };

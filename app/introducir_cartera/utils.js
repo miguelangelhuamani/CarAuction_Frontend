@@ -5,7 +5,7 @@ export default async function createWallet(token, cardNumber) {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ card_number: "4242424242424242" }),
+    body: JSON.stringify({ card_number: cardNumber }),
   });
 
   const data = await response.json();

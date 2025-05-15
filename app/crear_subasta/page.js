@@ -1,6 +1,6 @@
 "use client";
 
-import { docreateAuction, fetchCategories } from "./utils";
+import { docreateAuction, fetchCategories, createCategories } from "./utils";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
@@ -12,7 +12,8 @@ export default function CreateAuction() {
   const [success, setSuccess] = useState("");
   const [token, setToken] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [categorySelect, setCategory] = useState(null);
+  const [categorySelect, setCategory] = useState("");
+  const [newcategory, setNewCategory] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -38,18 +39,42 @@ export default function CreateAuction() {
 
     const formData = new FormData(event.target);
 
-    const auctionData = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      closing_date: new Date(formData.get("closing_date")).toISOString(),
-      thumbnail: formData.get("thumbnail"),
-      price: formData.get("price"),
-      stock: parseInt(formData.get("stock")),
-      category: parseInt(categorySelect),
-      brand: formData.get("brand"),
-    };
+    let finalCategoryId = null;
 
-    const result = await docreateAuction(auctionData, token);
+    if (categorySelect === "nueva") {
+      if (!newcategory) {
+        setError("Por favor, escribe el nombre de la nueva categoría");
+        return;
+      }
+
+      try {
+        const nueva = await createCategories(newcategory, token);
+        finalCategoryId = nueva.id;
+        setCategories([...categories, nueva]); // opcional: actualizar lista local
+      } catch (err) {
+        setError(err.message);
+        return;
+      }
+    } else {
+      finalCategoryId = parseInt(categorySelect);
+    }
+
+    // const auctionData = {
+    //   title: formData.get("title"),
+    //   description: formData.get("description"),
+    //   closing_date: new Date(formData.get("closing_date")).toISOString(),
+    //   thumbnail: formData.get("thumbnail"),
+    //   price: formData.get("price"),
+    //   stock: parseInt(formData.get("stock")),
+    //   category: finalCategoryId,
+    //   brand: formData.get("brand"),
+    // };
+    // console.log("Auction data:", auctionData);
+    formData.set("closing_date", new Date(formData.get("closing_date")).toISOString());
+    formData.set("category", finalCategoryId);
+
+    //const result = await docreateAuction(auctionData, token);
+    const result = await docreateAuction(formData, token);
 
 
     if (result.error) {
@@ -61,10 +86,6 @@ export default function CreateAuction() {
       }, 2000);
     }
   };
-
-  const handleCategoryChange = (selectedCategoryId) => {
-    setCategory(selectedCategoryId);
-  }; 
 
   if (!token) {
     return <p>Debes iniciar sesión para crear una subasta.</p>;
@@ -81,7 +102,13 @@ export default function CreateAuction() {
           ) : (
             Object.entries(error).map(([field, messages]) => (
               <p key={field}>
-                {field}: {messages.join(", ")}
+                {field}: {
+                  Array.isArray(messages)
+                    ? messages.join(", ")
+                    : typeof messages === "object"
+                      ? JSON.stringify(messages)
+                      : messages
+                }
               </p>
             ))
           )}
@@ -95,12 +122,12 @@ export default function CreateAuction() {
         <textarea name="description" placeholder="Descripción" required />
         <label htmlFor="closing_date">Fecha de cierre:</label>
         <input type="datetime-local" name="closing_date" required />
-        <input name="thumbnail" placeholder="URL de imagen" required />
+        <input type="file" name="image" accept="image/*" required placeholder="Imagen"/>
         <input name="price" type="number" step="0.01" placeholder="Precio inicial" required />
         <input name="stock" type="number" placeholder="Stock" required />
 
         <label htmlFor="category">Categoría:</label>
-        <CategorySelect categories={categories} onChange={handleCategoryChange} />
+        <CategorySelect categories={categories} category={categorySelect} setCategory={setCategory} newCategory={newcategory} setNewCategory={setNewCategory}/>
 
         <input name="brand" placeholder="Marca" required />
         <button type="submit">Crear subasta</button>
